@@ -1,37 +1,14 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.http import JsonResponse
-from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
-
-from .models import *
-from .serializers import *
+from django.views.generic.base import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
-class CustomTokenViewBase(TokenObtainPairView):
-    """Изменен класс ответа на JsonResponse"""
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0])
-
-        return JsonResponse(serializer.validated_data, status=status.HTTP_200_OK, safe=False)
+class IndexPageView(TemplateView):
+    """Индексная страница, доступна всем"""
+    template_name = 'purse/index_page.html'
 
 
-class CustomTokenRefreshView(TokenRefreshView):
-    """Изменен класс ответа на JsonResponse"""
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-
-        try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            raise InvalidToken(e.args[0])
-
-        return JsonResponse(serializer.validated_data, status=status.HTTP_200_OK, safe=False)
+class UserProfileView(LoginRequiredMixin, TemplateView):
+    """Страница профиля, доступна авторизованным пользователям"""
+    redirect_field_name = 'next'
+    template_name = 'purse/profile.html'

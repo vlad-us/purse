@@ -1,9 +1,10 @@
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 from .views import *
 
+
+app_name = 'purse'
 urlpatterns = [
-    # jwt auth
-    path('auth/token-pair/', CustomTokenViewBase.as_view(), name='token_pair'),
-    path('auth/token-refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
-    # views
+    path('', IndexPageView.as_view(), name='index'),
+    path('profile/', UserProfileView.as_view(), name='profile'),
 ]

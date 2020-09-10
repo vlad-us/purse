@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-import logging.config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -45,14 +44,18 @@ INSTALLED_APPS = [
     # my apps
     'purse.apps.PurseConfig',
     'users.apps.UsersConfig',
+    'log.apps.LogConfig',
+    'api.apps.ApiConfig',
     # installed libs
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
+    'bootstrap4',
+    'social_django'
 ]
 
 MIDDLEWARE = [
-    'purse.middleware.LoggingMiddleware',  # my logging middleware
+    'log.middleware.LoggingMiddleware',  # my logging middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -62,6 +65,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_VK_OAUTH2_KEY = '7560988 '
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'GoHeJ2UyVzjoba2SHTkJ'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '386083363449-pf545tjqq0rug86q7ah6ljkt9ekfpuq4.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'PQ0lq0hnODWGDUkeRMPBWvPj'
 
 ROOT_URLCONF = 'project.urls'
 
@@ -76,6 +93,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -140,7 +159,19 @@ THOUSAND_SEPARATOR = ' '
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/purse/profile/'
+LOGOUT_REDIRECT_URL = '/purse/'
+PASSWORD_RESET_TIMEOUT_DAYS = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -174,12 +205,4 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-}
-
-DJANGO_LOGGING = {
-    "CONSOLE_LOG": False,
-    "DISABLE_EXISTING_LOGGERS": False,
-    "SQL_LOG": True,
-    "RESPONSE_FIELDS": ('status', 'reason', 'charset', 'headers'),
-    "ENCODING": 'utf-8'
 }

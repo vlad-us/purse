@@ -18,6 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('purse.urls')),
-    path('auth/', include('djoser.urls')),
+    path('purse/', include('purse.urls')),
+    path('auth/', include('users.urls')),
+    path('api/', include('api.urls')),
+    path('social/', include('social_django.urls', namespace='social'))
 ]

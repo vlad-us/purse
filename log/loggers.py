@@ -1,6 +1,6 @@
 import sys
 import traceback
-from purse.models import Log
+from .models import Log
 
 
 class BaseLogObject(object):

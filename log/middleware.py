@@ -4,7 +4,7 @@ import json
 from django.utils.deprecation import MiddlewareMixin
 from django.http import JsonResponse
 from rest_framework import status
-from loggers import LogObject, ErrorLogObject
+from log.loggers import LogObject, ErrorLogObject
 
 
 class LoggingMiddleware(MiddlewareMixin):

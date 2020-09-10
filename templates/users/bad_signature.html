@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Ошибка активации{% endblock %}
+
+{% block content %}
+
+<div class="row mt-3">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <h2>Активация</h2>
+        <p>Активация пользователя с таким именем прошла неудачно.</p>
+        <p><a href="{% url 'users:user_registration' %}">Зарегистрироваться повторно.</a></p>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+{% endblock %}

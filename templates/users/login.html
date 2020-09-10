@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+<div class="row mt-3">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <h3>User authorization</h3>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+<div class="row">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form show_label=False size='small' %}
+
+            <small class="form-text text-muted mt-3">Авторизация с помощью социальных сетей | <a href="{% url 'users:password_reset' %}">Забыли пароль?</a></small>
+            <div class="row mt-1">
+                <div class="col-1">
+                    <a href="{% url 'social:begin' 'vk-oauth2' %}"><img src="{% static 'users/img/vk.png' %}"></a>
+                </div>
+                <div class="col-1 ml-2">
+                    <a href="{% url 'social:begin' 'google-oauth2' %}"><img
+                            src="{% static 'users/img/google.png' %}"></a>
+                </div>
+                <div class="col-1 ml-2">
+                    <a href="#"><img src="{% static 'users/img/twitter.png' %}"></a>
+                </div>
+                <div class="col-1 ml-2">
+                    <a href="#"><img src="{% static 'users/img/odnoklassniki.png' %}"></a>
+                </div>
+                <div class="col-1 ml-2">
+                    <a href="#"><img src="{% static 'users/img/github.png' %}"></a>
+                </div>
+            </div>
+
+            {% bootstrap_button 'Войти' button_class='btn-info mt-4' button_type='submit' size='small' %}
+        </form>
+    </div>
+    <div class="col-3"></div>
+</div>
+
+
+{% endblock %}

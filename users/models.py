@@ -1,7 +1,12 @@
+from django.core.mail import send_mail
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, User
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, AbstractUser
 from django.utils import timezone
+from django.dispatch import Signal
+
+
 from .managers import CustomUserManager
+from .utils import send_activation_notification
 
 
 # Create your models here.
@@ -35,5 +40,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         else:
             return self.first_name
 
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        send_mail(subject, message, from_email, [self.email], **kwargs)
+
     def __str__(self):
         return self.email
+
+
+user_registrated = Signal(providing_args=['instance'])
+
+
+def user_registrated_dispatcher(sender, **kwargs):
+    send_activation_notification(kwargs['instance'])
+
+
+user_registrated.connect(user_registrated_dispatcher)

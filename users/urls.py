@@ -10,7 +10,7 @@ urlpatterns = [
     # Изменить информацию о себе
     path('profile/change/', UserChangeInfo.as_view(), name='change_profile'),
     # Изменить пароля
-    path('password/change/', UserPasswordChangeView.as_view(), name='password_change'),
+    path('profile/password/change/', UserPasswordChangeView.as_view(), name='password_change'),
     # Сброс пароля
     path('password/reset/', UserPasswordResetView.as_view(), name='password_reset'),
     path('password/reset/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name='password_reset_confirm'),

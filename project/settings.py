@@ -75,7 +75,7 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_VK_OAUTH2_KEY = '7560988 '
 SOCIAL_AUTH_VK_OAUTH2_SECRET = 'GoHeJ2UyVzjoba2SHTkJ'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '386083363449-pf545tjqq0rug86q7ah6ljkt9ekfpuq4.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'PQ0lq0hnODWGDUkeRMPBWvPj'
@@ -116,7 +116,6 @@ DATABASES = {
         'PASSWORD': 'admin',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -159,8 +158,10 @@ THOUSAND_SEPARATOR = ' '
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    ('users', r'D:\Desktop\my_projects\django-projects\purse\static\users'),
+    ('purse', r'D:\Desktop\my_projects\django-projects\purse\static\purse')
 ]
 
 MEDIA_URL = '/media/'

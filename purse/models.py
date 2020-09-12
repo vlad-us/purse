@@ -75,8 +75,8 @@ class AggregateBudget(models.Model):
     month = models.PositiveSmallIntegerField(verbose_name='Месяц')
     year = models.PositiveSmallIntegerField(verbose_name='Год')
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Пользователь')
-    income_amount = models.PositiveIntegerField(verbose_name='Сумма дохода')
-    expenses_amount = models.PositiveIntegerField(verbose_name='Сумма расхода')
+    income_amount = models.PositiveIntegerField(verbose_name='Сумма дохода', default=0)
+    expenses_amount = models.PositiveIntegerField(verbose_name='Сумма расхода', default=0)
     slug = models.SlugField(max_length=155)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
@@ -120,12 +120,13 @@ class BudgetEntry(models.Model):
         ordering = ['-created_at']
 
     def save(self, commit=False, *args, **kwargs):
+        """Говнокод((( надо будет вынести в отдельную функцию"""
         self.created_at = datetime.now()
         self.day = self.created_at.day
         self.month = self.created_at.month
         self.year, self.week_number, self.day_of_week = self.created_at.isocalendar()
         try:
-            aggr = AggregateBudget.objects.get(month=self.month, year=self.year)
+            aggr = AggregateBudget.objects.get(month=self.month, year=self.year, user=self.user)
             self.parent = aggr
             if self.type == 'i':
                 aggr.income_amount += self.amount

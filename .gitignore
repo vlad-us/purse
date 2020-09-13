@@ -1,5 +1,6 @@
 env
 .idea
-manage.py
 nsi_api.postman_collection.json
 README.md
+.env
+__pycache__

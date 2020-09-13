@@ -6,187 +6,65 @@
 
 {% block content %}
 
-<!--<div class="row mt-3 mb-3">-->
-<!--    <div class="col-4">-->
-<!--        <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapseForm"-->
-<!--                aria-expanded="false" aria-controls="collapseForm">-->
-<!--            Добавить запись бюджета.-->
-<!--        </button>-->
-<!--    </div>-->
-<!--    <div class="col-4">-->
-<!--        <button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#collapseData"-->
-<!--                aria-expanded="false" aria-controls="collapseForm">-->
-<!--            Данные за текущий месяц.-->
-<!--        </button>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="row mt-3 mb-3">
+    <div class="col-4">
+        <h4 class="h4">Добавить запись бюджета</h4>
+    </div>
+    <div class="col-4">
+        <h4 class="h4">Данные за текущий месяц</h4>
+    </div>
+</div>
 
-<!--<div class="row">-->
-<!--     FORM -->
-<!--    <div class="col-4">-->
-<!--        <div class="collapse" id="collapseForm">-->
-<!--            <form method="post">-->
-<!--                {% csrf_token %}-->
-<!--                {% bootstrap_form form show_label=True size='small' layout='horizontal' %}-->
-<!--                {% bootstrap_button 'Добавить' button_class='btn-info mt-4' button_type='submit' size='small' %}-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--     MONTH DETAILS -->
-<!--    <div class="col-5">-->
-<!--        <div class="collapse" id="collapseData">-->
-<!--            <div class="row">-->
-<!--                <div class="col">-->
-<!--                    <h4 class="h4">{{ month }}: <span-->
-<!--                            class="{% if balance > 0 %}badge badge-success{% else %}badge badge-danger{% endif %}">{{ balance }}</span>-->
-<!--                        ₽</h4>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="row">-->
-<!--                <div class="col">-->
-<!--                    <button class="btn btn-info mb-2 btn-sm" type="button" data-toggle="collapse" data-target="#incomes"-->
-<!--                            aria-expanded="false" aria-controls="collapseExample">Доходы: <span-->
-<!--                            class="badge badge-light">{{ total_income.amount__sum }} ₽</span>-->
-<!--                    </button>-->
-<!--                    <div class="collapse" id="incomes">-->
-<!--                        {% for key, value in incomes_per_category.items %}-->
-<!--                        <div>-->
-<!--                            <span class="badge badge-pill badge-success">{{ key }}: {{ value }} ₽</span>-->
-<!--                        </div>-->
-<!--                        {% endfor %}-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="col">-->
-<!--                    <button class="btn btn-info mb-2 btn-sm" type="button" data-toggle="collapse" data-target="#expense"-->
-<!--                            aria-expanded="false" aria-controls="collapseExample">Затраты: <span-->
-<!--                            class="badge badge-light">{{ total_expense.amount__sum }} ₽</span>-->
-<!--                    </button>-->
-<!--                    <div class="collapse" id="expense">-->
-<!--                        {% for key, value in expenses_per_category.items %}-->
-<!--                        <div>-->
-<!--                            <span class="badge badge-pill badge-danger">{{ key }}: {{ value }} ₽</span>-->
-<!--                        </div>-->
-<!--                        {% endfor %}-->
-<!--                    </div>-->
-
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="col-3"></div>-->
-<!--</div>-->
-
-<div class="accordion" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse"
-                        data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Добавить запись
-                </button>
-            </h2>
+<div class="row">
+    <!--     FORM-->
+    <div class="col-4">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form show_label=True size='small' layout='horizontal' %}
+            {% bootstrap_button 'Добавить' button_class='btn-info mt-4' button_type='submit' size='small' %}
+        </form>
+    </div>
+    <!--     MONTH DETAILS-->
+    <div class="col-5">
+        <div class="row">
+            <div class="col">
+                <h4 class="h4">{{ month }}: <span
+                        class="{% if balance > 0 %}badge badge-success{% else %}badge badge-danger{% endif %}">{{ balance }}</span>
+                    ₽</h4>
+            </div>
         </div>
 
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-                <div class="row">
-                    <!-- FORM-->
-                    <div class="col-5">
-                        <form method="post">
-                            {% csrf_token %}
-                            {% bootstrap_form form show_label=True size='small' layout='horizontal' %}
-                            {% bootstrap_button 'Добавить' button_class='btn-info mt-4' button_type='submit' size='small' %}
-                        </form>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-info mb-2 btn-sm" type="button" data-toggle="collapse" data-target="#incomes"
+                        aria-expanded="false" aria-controls="collapseExample">Доходы: <span
+                        class="badge badge-light">{{ total_income.amount__sum }} ₽</span>
+                </button>
+                <div class="collapse" id="incomes">
+                    {% for key, value in incomes_per_category.items %}
+                    <div>
+                        <span class="badge badge-pill badge-success">{{ key }}: {{ value }} ₽</span>
                     </div>
-                    <!-- MONTH DETAILS-->
-                    <div class="col-5">
-                        <div class="row">
-                            <div class="col">
-                                <h4 class="h4">Баланс за {{ month }}: <span
-                                        class="{% if balance > 0 %}badge badge-success{% else %}badge badge-danger{% endif %}">{{ balance }}</span>
-                                    ₽</h4>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col">
-                                <button class="btn btn-info mb-2 btn-sm" type="button" data-toggle="collapse"
-                                        data-target="#incomes"
-                                        aria-expanded="false" aria-controls="collapseExample">Доходы: <span
-                                        class="badge badge-light">{{ total_income.amount__sum }} ₽</span>
-                                </button>
-                                <div class="collapse" id="incomes">
-                                    {% for key, value in incomes_per_category.items %}
-                                    <div>
-                                        <span class="badge badge-pill badge-success">{{ key }}: {{ value }} ₽</span>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button class="btn btn-info mb-2 btn-sm" type="button" data-toggle="collapse"
-                                        data-target="#expense"
-                                        aria-expanded="false" aria-controls="collapseExample">Затраты: <span
-                                        class="badge badge-light">{{ total_expense.amount__sum }} ₽</span>
-                                </button>
-                                <div class="collapse" id="expense">
-                                    {% for key, value in expenses_per_category.items %}
-                                    <div>
-                                        <span class="badge badge-pill badge-danger">{{ key }}: {{ value }} ₽</span>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-
-                            </div>
-                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col">
+                <button class="btn btn-info mb-2 btn-sm" type="button" data-toggle="collapse" data-target="#expense"
+                        aria-expanded="false" aria-controls="collapseExample">Затраты: <span
+                        class="badge badge-light">{{ total_expense.amount__sum }} ₽</span>
+                </button>
+                <div class="collapse" id="expense">
+                    {% for key, value in expenses_per_category.items %}
+                    <div>
+                        <span class="badge badge-pill badge-danger">{{ key }}: {{ value }} ₽</span>
                     </div>
-                    <div class="col-3"></div>
+                    {% endfor %}
                 </div>
 
             </div>
         </div>
     </div>
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Collapsible Group Item #2
-                </button>
-            </h2>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-            <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </div>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="headingThree">
-            <h2 class="mb-0">
-                <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse"
-                        data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Collapsible Group Item #3
-                </button>
-            </h2>
-        </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-            <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-            </div>
-        </div>
-    </div>
+    <div class="col-3"></div>
 </div>
 
 {% endblock %}

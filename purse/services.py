@@ -35,8 +35,6 @@ def details_per_category(user):
             total_expense = {'amount__sum': 0}
         else:
             total_expense = expense_budget_entries.aggregate(Sum('amount'))
-        print('total_income: ', total_income)
-        print('total_expense: ', total_expense)
 
         # Посчитать суммы по каждой категории в отдельности
         expenses_per_category = {

@@ -3,6 +3,7 @@ from uuid import uuid4
 from pytils.translit import slugify
 from users.models import CustomUser
 from datetime import datetime
+from django.urls import reverse
 
 
 # Create your models here.
@@ -90,6 +91,15 @@ class AggregateBudget(models.Model):
         if not self.slug:
             self.slug = slugify(self.MONTHS[self.month])
         super(AggregateBudget, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        user = self.user.pk
+        return reverse('purse:budget_detail', kwargs={'user': user, 'year': self.year, 'slug': self.slug})
+
+    def get_api_url(self):
+        user = self.user.pk
+        url = 'http://127.0.0.1:8000' + reverse('api:export_to_excel', kwargs={'user': user, 'year': self.year, 'slug': self.slug})
+        return url
 
 
 class BudgetEntry(models.Model):

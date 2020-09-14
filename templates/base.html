@@ -43,7 +43,7 @@
                                 {{ user.email }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Профиль</a>
+                                <a class="dropdown-item" href="{% url 'purse:profile' %}">Профиль</a>
                                 <a class="dropdown-item" href="{% url 'purse:add_budget_entry' %}">Добавить запись</a>
                                 <div class="dropdown-divider"></div>
                                 <!-- Работа с профилем -->

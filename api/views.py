@@ -5,8 +5,8 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework.views import APIView
 
 
-from purse.models import SubCategory
-from .serializers import BudgetSerialiser
+from purse.models import SubCategory, AggregateBudget
+from .serializers import BudgetSerialiser, BudgetEntryToExcelSerializer
 
 
 # Create your views here.
@@ -41,4 +41,13 @@ class CategoriesView(APIView):
     def get(self, request, type):
         categories = SubCategory.objects.filter(type=type)
         serializer = BudgetSerialiser(categories, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+
+class BudgetEntriesToExcelView(APIView):
+    """Класс для ajax запроса на выгрузку данных в excel"""
+    def get(self, request, user, year, slug):
+        data = AggregateBudget.objects.get(user=user, year=year, slug=slug)
+        data = data.budgetentry_set.all()
+        serializer = BudgetEntryToExcelSerializer(data, many=True)
         return JsonResponse(serializer.data, safe=False)

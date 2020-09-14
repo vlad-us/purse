@@ -1,5 +1,6 @@
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
+from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
@@ -7,7 +8,7 @@ from django.urls import reverse_lazy
 from .models import BudgetEntry, AggregateBudget
 from .forms import BudgetEntryForm
 from users.models import CustomUser
-from .services import details_per_category
+from .services import details_per_category, MONTHS_MAPPING
 
 
 # Create your views here.
@@ -22,7 +23,9 @@ class UserProfileView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['month_budgets'] = AggregateBudget.objects.filter(user=self.request.user)
+        data = {MONTHS_MAPPING[i.month]: i for i in AggregateBudget.objects.filter(user=self.request.user)}
+        context['month_budgets'] = data
+        return context
 
 
 class AddBudgetEntry(LoginRequiredMixin, CreateView):
@@ -40,3 +43,18 @@ class AddBudgetEntry(LoginRequiredMixin, CreateView):
         extra_context = details_per_category(self.request.user)
         context.update(extra_context)
         return context
+
+
+class BudgetDetailView(LoginRequiredMixin, DetailView):
+    """Детали бюджета за месяц"""
+    template_name = 'purse/budget_detail.html'
+    model = AggregateBudget
+    context_object_name = 'budget'
+
+    def get_object(self, queryset=None):
+        queryset = AggregateBudget.objects.get(
+            user=self.kwargs.get('user', None),
+            year=self.kwargs.get('year', None),
+            slug=self.kwargs.get('slug', None)
+        )
+        return queryset

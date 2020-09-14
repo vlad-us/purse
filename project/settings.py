@@ -75,7 +75,7 @@ AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_VK_OAUTH2_KEY = '7560988 '
 SOCIAL_AUTH_VK_OAUTH2_SECRET = 'GoHeJ2UyVzjoba2SHTkJ'
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
-# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '386083363449-pf545tjqq0rug86q7ah6ljkt9ekfpuq4.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'PQ0lq0hnODWGDUkeRMPBWvPj'
@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'purse',
         'HOST': '127.0.0.1',
         'PORT': '5432',
@@ -143,7 +143,7 @@ LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'europe/moscow'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_L10N = True
 

@@ -5,7 +5,33 @@
 {% block title %}Профиль{% endblock %}
 
 {% block content %}
-<div class="col-6">
-    <p>profile data</p>
+<div class="row">
+    <div class="col-6">
+        <p>profile data</p>
+        {% for key, value in month_budgets.items %}
+        <div class="card border-info mb-3" style="max-width: 22rem;">
+            <div class="card-header"><a class="bla" href="{{ value.get_absolute_url }}" id="{{ value.id }}">{{ key }} {{value.year }} года.</a></div>
+            <!--        <div class="card-header"><a href="{% url 'purse:budget_detail' value.user.pk value.year value.slug %}" id="{{ value.id }}">{{ key }} {{ value.year }} года.</a></div>-->
+            <div class="card-body text-success">
+                <div class="row">
+                    <div class="col">
+                        <div class="badge badge-success text-wrap" style="width: 8rem;">
+                            Доходы: {{ value.income_amount }} ₽
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="badge badge-danger text-wrap" style="width: 8rem;">
+                            Расходы: {{ value.expenses_amount }} ₽
+                        </div>
+                    </div>
+                </div>
+                <p class="card-text">
+
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
+
 {% endblock %}

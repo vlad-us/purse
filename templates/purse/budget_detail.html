@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!--<input class="btn btn-info btn-sm" type="button" onclick="tableToExcel('testTable', 'W3C Example Table')" value="Export to Excel">-->
+<button class="btn btn-info btn-sm" id="exportToExcel" value="{{ budget.get_api_url }}">Экспорт в Excel</button>
+<table class="table" id="testTable">
+    <thead class="thead-light">
+    <tr>
+        <th scope="col">Title</th>
+        <th scope="col">Type</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in budget.budgetentry_set.all %}
+    <tr>
+        <th>{{ i.title }}</th>
+        <td>{% if i.type == 'i' %}Доход{% else %}Расход{% endif %}</td>
+        <td>{{ i.amount }} ₽</td>
+        <td>{{ i.created_at|date:"d.m.Y H:i" }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script src="{% static 'purse/js/script.js' %}"></script>
+
+{% endblock %}
+
